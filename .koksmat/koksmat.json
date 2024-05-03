@@ -1,0 +1,13 @@
+{
+  "version": {
+    "minor": 0,
+    "build": 1,
+    "patch": 1,
+    "major": 0
+  },
+  "appname": "magic-spaces",
+  "dnsprod": "devices.intra.nexigroup.com",
+  "dnstest": "devices-test.intra.nexigroup.com",
+  "imagename": "ghcr.io/magicbutton/magic-spaces",
+  "port": 4343
+}

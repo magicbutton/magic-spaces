@@ -1,0 +1,169 @@
+name: apps
+type: magicservice
+namespace: apps
+organisation: magicbutton
+magicappversion: v0.0.1
+description: A simple app to manage users, groups and memberships
+
+baseattributes:
+  urlrecord:
+    &recordAttributesWithURL # Id + Created + Updated + CreatedBy + UpdatedBy are implicit
+    - name: tenant
+      type: string
+      required: true
+    - name: name
+      type: string
+      required: true
+    - name: description
+      type: string
+      required: false
+    - name: url
+      type: string
+      required: true
+  record:
+    &recordAttributes # Id + Created + Updated + CreatedBy + UpdatedBy are implicit
+    - name: tenant
+      type: string
+      required: true
+    - name: name
+      type: string
+      required: true
+    - name: description
+      type: string
+      required: false
+
+entities:
+  person: &person
+    name: person
+    description: person
+    baselineattributes: *recordAttributes
+    additionalattributes:
+      - name: unique_person_id
+        type: string
+        required: true
+      - name: displayname
+        type: string
+        required: true
+      - name: email
+        type: string
+        required: true
+
+  devicetype: &devicetype
+    name: devicetype
+    description: devicetype
+    baselineattributes: *recordAttributes
+    additionalattributes:
+      - name: family
+        type: string
+        required: true
+
+  device: &device
+    name: device
+    description: device
+    baselineattributes: *recordAttributes
+    additionalattributes:
+      - name: unique_device_id
+        type: string
+        required: true
+      - name: displayname
+        type: string
+        required: true
+      - name: macaddress
+        type: string
+        required: true
+      - name: devicetype
+        type: reference
+        entity: *devicetype
+        required: true
+      - name: antivirus
+        type: boolean
+      - name: dlp
+        type: boolean
+      - name: endpointdetection
+        type: boolean
+      - name: diskentryptionprimarydisk
+        type: boolean
+      - name: diskentryptionprimarydisk
+        type: boolean
+  exceptiontype: &exceptiontype
+    name: exceptiontype
+    description: exceptiontype
+    baselineattributes: *recordAttributes
+    additionalattributes:
+      - name: family
+        type: string
+        required: true
+  exception: &exception
+    name: exceptions
+    description: exceptions
+    baselineattributes: *recordAttributes
+    additionalattributes:
+      - name: exceptiontype
+        type: reference
+        entity: *exceptiontype
+        required: true
+      - name: person
+        type: reference
+        entity: *person
+        required: true
+
+models:
+  itemMethods: &itemMethods
+    - name: read
+      description: Read a single item
+      parameters:
+        - name: id
+          description: The id of the item
+          type: int
+          required: true
+      returns:
+        type: object
+
+    - name: create
+      description: Create a new item
+      parameters:
+        - name: item
+          description: The item to create
+          type: object
+          required: true
+      returns:
+        type: object
+    - name: update
+      description: Update an existing item
+      parameters:
+        - name: item
+          description: The item to update
+          type: object
+          required: true
+      returns:
+        type: object
+
+    - name: delete
+      description: Delete an existing item
+      parameters:
+        - name: id
+          description: The id of the item
+          type: int
+          required: true
+      returns:
+        type: void
+    - name: search
+      description: Search for items
+      parameters:
+        - name: query
+          description: The search query
+          type: string
+          required: true
+
+      returns:
+        type: page
+
+services:
+  - name: person
+    description: Manage persons
+    entity:
+      type: record
+      model: person
+      objectname: Person
+      entity: *person
+    methods: *itemMethods
