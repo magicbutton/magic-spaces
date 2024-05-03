@@ -48,64 +48,36 @@ entities:
         type: string
         required: true
 
-  devicetype: &devicetype
-    name: devicetype
-    description: devicetype
+  spacetype: &spacetype
+    name: spacetype
+    description: spacetype
     baselineattributes: *recordAttributes
     additionalattributes:
-      - name: family
-        type: string
-        required: true
 
-  device: &device
-    name: device
-    description: device
+  space: &space
+    name: space
+    description: space
     baselineattributes: *recordAttributes
     additionalattributes:
-      - name: unique_device_id
+      - name: unique_space_id
         type: string
         required: true
-      - name: displayname
-        type: string
-        required: true
-      - name: macaddress
-        type: string
-        required: true
-      - name: devicetype
+      - name: spacetype
         type: reference
-        entity: *devicetype
+        entity: *spacetype
         required: true
-      - name: antivirus
-        type: boolean
-      - name: dlp
-        type: boolean
-      - name: endpointdetection
-        type: boolean
-      - name: diskentryptionprimarydisk
-        type: boolean
-      - name: diskentryptionprimarydisk
-        type: boolean
-  exceptiontype: &exceptiontype
-    name: exceptiontype
-    description: exceptiontype
-    baselineattributes: *recordAttributes
-    additionalattributes:
-      - name: family
-        type: string
-        required: true
-  exception: &exception
-    name: exceptions
-    description: exceptions
-    baselineattributes: *recordAttributes
-    additionalattributes:
-      - name: exceptiontype
-        type: reference
-        entity: *exceptiontype
-        required: true
-      - name: person
+      - name: primaryowner
         type: reference
         entity: *person
         required: true
+      - name: secondaryowner
+        type: reference
+        entity: *person
+        required: false
+      - name: accountable
+        type: reference
+        entity: *person
+        required: false
 
 models:
   itemMethods: &itemMethods
@@ -166,4 +138,22 @@ services:
       model: person
       objectname: Person
       entity: *person
+    methods: *itemMethods
+
+  - name: spacetype
+    description: Manage space types
+    entity:
+      type: record
+      model: spacetype
+      objectname: SpaceType
+      entity: *spacetype
+    methods: *itemMethods
+
+  - name: space
+    description: Manage spaces
+    entity:
+      type: record
+      model: space
+      objectname: Space
+      entity: *space
     methods: *itemMethods

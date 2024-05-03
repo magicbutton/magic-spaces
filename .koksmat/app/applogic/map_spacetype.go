@@ -11,39 +11,31 @@ import (
 	//"encoding/json"
 	//"time"
 	"github.com/magicbutton/magic-spaces/database"
-	"github.com/magicbutton/magic-spaces/services/models/campaignmodel"
+	"github.com/magicbutton/magic-spaces/services/models/spacetypemodel"
    
 )
 
 
-func MapCampaignOutgoing(db database.Campaign) campaignmodel.Campaign {
-    return campaignmodel.Campaign{
+func MapSpaceTypeOutgoing(db database.SpaceType) spacetypemodel.SpaceType {
+    return spacetypemodel.SpaceType{
         ID:        db.ID,
         CreatedAt: db.CreatedAt,
         UpdatedAt: db.UpdatedAt,
                 Tenant : db.Tenant,
         Name : db.Name,
         Description : db.Description,
-        Url : db.Url,
-        Key : db.Key,
-        Displayname : db.Displayname,
-                Owner_id : db.Owner_id,
 
     }
 }
 
-func MapCampaignIncoming(in campaignmodel.Campaign) database.Campaign {
-    return database.Campaign{
+func MapSpaceTypeIncoming(in spacetypemodel.SpaceType) database.SpaceType {
+    return database.SpaceType{
         ID:        in.ID,
         CreatedAt: in.CreatedAt,
         UpdatedAt: in.UpdatedAt,
                 Tenant : in.Tenant,
         Name : in.Name,
         Description : in.Description,
-        Url : in.Url,
-        Key : in.Key,
-        Displayname : in.Displayname,
-                Owner_id : in.Owner_id,
 
     }
 }
